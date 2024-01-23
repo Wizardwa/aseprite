@@ -477,7 +477,9 @@ public:
                const bool saveLastPoint)
     : ToolLoopBase(editor, site, grid, params)
     , m_context(context)
-    , m_tx(m_context,
+    , m_tx(Tx::DontLockDoc,
+           m_context,
+           m_context->activeDocument(),
            m_tool->getText().c_str(),
            ((m_ink->isSelection() ||
              m_ink->isEyedropper() ||
@@ -856,8 +858,8 @@ tools::ToolLoop* create_tool_loop(
   // Get fg/bg colors
   ColorBar* colorbar = ColorBar::instance();
   if (site.tilemapMode() == TilemapMode::Tiles) {
-    params.fg = app::Color::fromIndex(colorbar->getFgTile()); // TODO Color::fromTileIndex?
-    params.bg = app::Color::fromIndex(colorbar->getBgTile());
+    params.fg = app::Color::fromTile(colorbar->getFgTile());
+    params.bg = app::Color::fromTile(colorbar->getBgTile());
   }
   else {
     params.fg = colorbar->getFgColor();
@@ -1051,8 +1053,8 @@ tools::ToolLoop* create_tool_loop_preview(
   // Get fg/bg colors
   ColorBar* colorbar = ColorBar::instance();
   if (site.tilemapMode() == TilemapMode::Tiles) {
-    params.fg = app::Color::fromIndex(colorbar->getFgTile()); // TODO Color::fromTileIndex?
-    params.bg = app::Color::fromIndex(colorbar->getBgTile());
+    params.fg = app::Color::fromTile(colorbar->getFgTile());
+    params.bg = app::Color::fromTile(colorbar->getBgTile());
   }
   else {
     params.fg = colorbar->getFgColor();
